@@ -11,5 +11,5 @@ jobs:
         name: greefine/devops-front-master
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: master.DockerFile
-        context: MyProj-Frontend
+        dockerfile: ./MyProj-Frontend/master.DockerFile
+        context: ./MyProj-Frontend
