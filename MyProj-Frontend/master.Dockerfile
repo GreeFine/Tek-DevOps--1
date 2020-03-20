@@ -3,7 +3,6 @@ FROM node:12 as build
 WORKDIR app
 
 COPY . /app
-COPY ENV /app/.env
 
 RUN yarn
 RUN yarn build

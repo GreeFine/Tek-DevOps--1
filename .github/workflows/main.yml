@@ -5,11 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - run: ls -la ./MyProj-Frontend
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: greefine/devops-front-master
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: ./MyProj-Frontend/master.DockerFile
+        dockerfile: master.DockerFile
+        workdir: ./MyProj-Frontend
         context: ./MyProj-Frontend
