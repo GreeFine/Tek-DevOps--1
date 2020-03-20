@@ -13,4 +13,4 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: master.DockerFile
-        workdir: MyProj-Frontend
+        context: MyProj-Frontend
