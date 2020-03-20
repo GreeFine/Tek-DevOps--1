@@ -6,6 +6,7 @@ COPY . /app
 
 RUN yarn
 RUN yarn build
+RUN yarn test
 
 FROM nginx:1.17 as serve
 
