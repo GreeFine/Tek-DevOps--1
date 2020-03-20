@@ -1,0 +1,12 @@
+version: '3'
+services:
+  prisma:
+    ports:
+      - '127.0.0.1:4466:4466'
+
+  graphql:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - '4000:4000'

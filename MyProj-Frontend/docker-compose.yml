@@ -1,0 +1,31 @@
+version: '3'
+services:
+  preview:
+    image: greefine/devops-front-${CI_COMMIT_REF_NAME}
+    build:
+      context: .
+      dockerfile: ${CI_COMMIT_REF_NAME}.Dockerfile
+    environment:
+      - PORT=80
+      - REACT_APP_HOST_GRAPHQL=https://${CI_HOST_API}/
+    volumes:
+      - ./:/MyProj-Frontend # Should not be mounted for production
+    networks:
+      - webgateway
+    deploy:
+      labels:
+        traefik.http.routers.front-web.rule: 'Host(`localhost`)'
+        traefik.http.routers.front-web.entrypoints: web
+        traefik.http.routers.front-web.middlewares: test-redirectscheme
+        traefik.http.routers.front-web-secured.rule: 'Host(`localhost`)'
+        traefik.http.routers.front-web-secured.entrypoints: web-secured
+        traefik.http.routers.front-web-secured.tls: 'true'
+        traefik.http.services.front.loadbalancer.server.port: '80'
+        traefik.http.middlewares.test-redirectscheme.redirectscheme.scheme: "https"
+
+networks:
+  webgateway:
+    external: true
+
+volumes:
+  postgres:

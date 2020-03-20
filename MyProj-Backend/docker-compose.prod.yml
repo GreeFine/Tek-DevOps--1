@@ -1,0 +1,22 @@
+version: '3'
+services:
+  graphql:
+    image: greefine/devops-back-${CI_COMMIT_REF_NAME}
+    restart: always
+    networks:
+      - webgateway
+      - default
+    deploy:
+      labels:
+        traefik.http.routers.graphql-web.rule: 'Host(`api.localhost`) && Path(`/api`)'
+        traefik.http.routers.graphql-web.entrypoints: web
+        traefik.http.routers.graphql-web.middlewares: back-redirectscheme
+        traefik.http.routers.graphql-web-secured.rule: 'Host(`localhost`) &&  Path(`/api`)'
+        traefik.http.routers.graphql-web-secured.entrypoints: web-secured
+        traefik.http.routers.graphql-web-secured.tls: 'true'
+        traefik.http.services.back.loadbalancer.server.port: '4000'
+        traefik.http.middlewares.back-redirectscheme.redirectscheme.scheme: "https"
+
+networks:
+  webgateway:
+    external: true
