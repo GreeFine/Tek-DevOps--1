@@ -5,8 +5,8 @@ WORKDIR app
 COPY . /app
 
 RUN yarn
-RUN yarn build
 RUN yarn test
+RUN yarn build
 
 FROM nginx:1.17 as serve
 
