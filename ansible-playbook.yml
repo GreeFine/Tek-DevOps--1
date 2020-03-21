@@ -1,8 +1,6 @@
 ---
 - hosts: all
   become: true
-  vars_files:
-    - vars/default.yml
 
   tasks:
     - name: Install aptitude using apt
@@ -25,6 +23,12 @@
     - name: Update apt and install docker-ce
       apt: update_cache=yes name=docker-ce state=latest
 
+    - name: Install pip
+      apt:
+        name: python-pip
+        update_cache: yes
+        state: present
+
     - name: Install Docker Module for Python
       pip:
         name: docker
@@ -34,9 +38,21 @@
         name: "ubuntu"
         source: pull
 
-    - name: Create default containers
+    - name: Create default container
       docker_container:
-        name: "docker{{ item }}"
+        name: "docker-devops"
         image: "ubuntu"
         command: "sleep 1d"
         state: present
+
+    - name: copy backend project files
+      copy:
+        src: ./MyProj-Backend
+        dest: .
+        owner: root
+
+    - name: copy frontend project files
+      copy:
+        src: ./MyProj-Frontend
+        dest: .
+        owner: root
